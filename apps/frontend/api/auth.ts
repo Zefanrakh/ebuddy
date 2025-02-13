@@ -1,9 +1,16 @@
 // Import the functions you need from the SDKs you need
+import { CreateUserDto } from "@repo/shared-types";
 import { FirebaseOptions, getApp, getApps, initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
+import { createUser } from "./createUser";
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -17,6 +24,37 @@ const firebaseConfig: FirebaseOptions = {
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const auth = getAuth(app);
+
+/**
+ * Registers a new user using Firebase Authentication.
+ *
+ * This function creates a new user in Firebase Authentication using
+ * an email and password. The user object should contain additional
+ * user information, such as `name`, which might be used later for profile updates.
+ *
+ * @param {CreateUserDto & { email: string; password: string }} user - The user details for registration.
+ * @param {string} user.email - The email address for registration.
+ * @param {string} user.password - The password for the new user.
+ * @param {string} user.name - The full name of the user.
+ *
+ * @throws {Error} Throws an error if required fields are missing or Firebase registration fails.
+ */
+
+export async function register(
+  user: CreateUserDto & { email: string; password: string }
+) {
+  const { email, password, name } = user;
+  if (!email || !password || !name)
+    throw new Error("Email and password are required.");
+
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    await createUser({ name });
+  } catch (error) {
+    console.error("Register error:", error);
+    throw error;
+  }
+}
 
 /**
  * Authenticates a user with Firebase and sets an authentication token in the cookies.

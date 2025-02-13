@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import DateInputTableField from "./DateInputTableField";
 import InputTableField from "./InputTableField";
-import { UserDto } from "../types/UserDto";
+import { ReadUserDto } from "@repo/shared-types";
 
 export default function UsersTableDesktop({
   editMode,
@@ -21,7 +21,7 @@ export default function UsersTableDesktop({
   handleSaveAll,
 }: {
   editMode: { [key: string]: boolean };
-  handleChange: (id: string, field: keyof UserDto, value: any) => void;
+  handleChange: (id: string, field: keyof ReadUserDto, value: any) => void;
   handleEditClick: (id: string) => void;
   handleSaveAll: () => void;
 }) {

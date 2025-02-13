@@ -1,13 +1,13 @@
 import { CaseReducer, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { UserState } from "./reducers";
 import { fetchUsers } from "../api/fetchUsers";
-import { upsertUser } from "../api/updateUser";
+import { updateUser } from "../api/updateUser";
 import { RootState } from "./store";
-import { UserDto } from "../types/UserDto";
+import { ReadUserDto } from "@repo/shared-types";
 
-const _setUsers: CaseReducer<UserState, PayloadAction<UserDto[]>> = (
+const _setUsers: CaseReducer<UserState, PayloadAction<ReadUserDto[]>> = (
   state: UserState,
-  action: PayloadAction<UserDto[]>
+  action: PayloadAction<ReadUserDto[]>
 ) => {
   state.users = action.payload;
   state.loading = false;
@@ -38,7 +38,7 @@ const updateUserData = createAsyncThunk(
     if (id) {
       users = users.filter((user) => user.id === id);
     }
-    const response = await upsertUser(users);
+    const response = await updateUser(users);
     thunkApi.dispatch(fetchUserList());
     return response;
   }

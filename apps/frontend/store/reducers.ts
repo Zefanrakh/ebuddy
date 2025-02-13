@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchUserList,
   _setError,
@@ -6,10 +6,10 @@ import {
   _setUsers,
   updateUserData,
 } from "./actions";
-import { UserDto } from "../types/UserDto";
+import { ReadUserDto } from "@repo/shared-types";
 
 export interface UserState {
-  users: UserDto[];
+  users: ReadUserDto[];
   loading: boolean;
   error: string;
 }

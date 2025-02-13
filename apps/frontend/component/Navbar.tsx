@@ -45,9 +45,14 @@ export default function Navbar() {
             Logout
           </Button>
         ) : (
-          <Button color="inherit" component={Link} href="/login">
-            Login
-          </Button>
+          <>
+            <Button color="inherit" component={Link} href="/login">
+              Login
+            </Button>
+            <Button color="inherit" component={Link} href="/register">
+              Register
+            </Button>
+          </>
         )}
       </Toolbar>
     </AppBar>

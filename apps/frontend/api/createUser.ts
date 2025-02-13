@@ -1,7 +1,7 @@
-import { ReadUserDto } from "@repo/shared-types";
+import { CreateUserDto, ReadUserDto } from "@repo/shared-types";
 import { waitForAuth } from "../utils/waitAuth";
 
-export async function updateUser(users: ReadUserDto[]) {
+export async function createUser(user: CreateUserDto) {
   try {
     const user = await waitForAuth();
     const { token } = await user.getIdTokenResult();
@@ -10,7 +10,7 @@ export async function updateUser(users: ReadUserDto[]) {
     }
 
     const res = await fetch(
-      `http://127.0.0.1:5001/ebuddy-7cedc/us-central1/api/update-user-data/`,
+      `http://127.0.0.1:5001/ebuddy-7cedc/us-central1/api/create-user-data/`,
       {
         method: "POST",
         headers: {
@@ -18,16 +18,16 @@ export async function updateUser(users: ReadUserDto[]) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          users,
+          user,
         }),
       }
     );
     const responseData = await res.json();
 
-    if (!res.ok) Error(responseData.error || "Failed to update user");
+    if (!res.ok) Error(responseData.error || "Failed to create user");
     return responseData;
   } catch (error) {
-    console.error("Error update user:", (error as Error).message);
+    console.error("Error create user:", (error as Error).message);
     throw error;
   }
 }

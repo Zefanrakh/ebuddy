@@ -1,8 +1,8 @@
 import { TableCell } from "@mui/material";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { ReadUserDto } from "@repo/shared-types";
 import dayjs from "dayjs";
-import { UserDto } from "../types/UserDto";
 
 export default function DateInputTableField({
   user,
@@ -10,9 +10,9 @@ export default function DateInputTableField({
   handleChange,
   isEditMode,
 }: {
-  field: keyof UserDto;
-  user: UserDto;
-  handleChange: (id: string, field: keyof UserDto, value: any) => void;
+  field: keyof ReadUserDto;
+  user: ReadUserDto;
+  handleChange: (id: string, field: keyof ReadUserDto, value: any) => void;
   isEditMode: boolean;
 }) {
   const value = user[field];

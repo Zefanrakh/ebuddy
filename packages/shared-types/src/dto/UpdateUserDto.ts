@@ -1,4 +1,4 @@
-import { User } from "@repo/shared-types";
+import { User } from "../user";
 
 export interface UpdateUserDto
   extends Omit<Partial<User>, "recentlyActive" | "id"> {

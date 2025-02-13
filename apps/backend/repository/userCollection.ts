@@ -1,8 +1,7 @@
 import { Timestamp } from "firebase-admin/firestore";
 import { db } from "../config/firebaseConfig.js";
 import { User } from "../entities/user.js";
-import { UpdateUserDto } from "../dtos/UpdateUserDto.js";
-import { CreateUserDto } from "../dtos/CreateUserDto.js";
+import { CreateUserDto, UpdateUserDto } from "@repo/shared-types";
 
 type Doc = FirebaseFirestore.DocumentSnapshot<
   FirebaseFirestore.DocumentData,
@@ -37,7 +36,24 @@ export const updateUserData = async (data: UpdateUserDto[]): Promise<void> => {
 export const createUserData = async (data: CreateUserDto): Promise<void> => {
   const usersRef = db.collection("users");
 
-  const docRef = await usersRef.add(data);
+  let { numberOfRents, totalAverageWeightRatings } = data;
+  if (!numberOfRents) {
+    numberOfRents = 0;
+  }
+  if (!totalAverageWeightRatings) {
+    totalAverageWeightRatings = 0;
+  }
+  let recentlyActive = data.recentlyActive as unknown as Timestamp;
+  if (!recentlyActive) {
+    recentlyActive = Timestamp.fromDate(new Date());
+  }
+
+  const docRef = await usersRef.add({
+    ...data,
+    numberOfRents,
+    recentlyActive,
+    totalAverageWeightRatings,
+  });
 };
 
 export const calculateUserScore = async (doc: Doc) => {

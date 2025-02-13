@@ -1,5 +1,5 @@
 import { TableCell, TextField } from "@mui/material";
-import { UserDto } from "../types/UserDto";
+import { ReadUserDto } from "@repo/shared-types";
 
 export default function InputTableField({
   user,
@@ -7,9 +7,9 @@ export default function InputTableField({
   handleChange,
   isEditMode,
 }: {
-  field: keyof UserDto;
-  user: UserDto;
-  handleChange: (id: string, field: keyof UserDto, value: any) => void;
+  field: keyof ReadUserDto;
+  user: ReadUserDto;
+  handleChange: (id: string, field: keyof ReadUserDto, value: any) => void;
   isEditMode: boolean;
 }) {
   const value = user[field];
