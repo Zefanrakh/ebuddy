@@ -19,5 +19,10 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@mui/x-date-pickers": "^7.26.0",
+    "dayjs": "^1.11.13",
+    "firebase": "^11.3.0"
+  }
 }
